@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
@@ -11,7 +12,12 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        return view('mahasiswa');
+        $mhs = Mahasiswa::all();
+        //mahasiswa disini merupakan model yang kita panggil
+        //all() disini merupakan funtion 
+        return view('mahasiswa', [
+            'mahasiswa' => $mhs
+        ]);
     }
 
     /**
@@ -59,6 +65,5 @@ class MahasiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+}
 }
