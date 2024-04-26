@@ -13,6 +13,7 @@ class Dosen extends Model
 
     protected $primaryKey = 'ID_dosen';
     public function ktd(){
-        return $this->hasOne( 'ID_dosen');
-    }
+        return $this->hasOne(Ktd::class, 'ID_dosen');
+
+}
 }
