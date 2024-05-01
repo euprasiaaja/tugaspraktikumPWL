@@ -13,8 +13,7 @@ class MahasiswaController extends Controller
     public function index()
     {
         $mhs = Mahasiswa::all();
-        //mahasiswa disini merupakan model yang kita panggil
-        //all() disini merupakan funtion 
+        
         return view('mahasiswa', [
             'mahasiswa' => $mhs
         ]);
@@ -46,6 +45,12 @@ class MahasiswaController extends Controller
         $mahasiswa->jurusan = $request->jurusan;
         $mahasiswa->alamat = $request->alamat;
         $mahasiswa->save();
+
+        $ktm = new Ktm;
+        $ktm->id_mahasiswa = $mahasiswa->id_mahasiswa;
+        $ktm->nomor_identitas = $request->no_identitas;
+        $ktm->save();
+
         return redirect()->route('index');
     }
 
@@ -62,9 +67,9 @@ class MahasiswaController extends Controller
      */
     public function edit(string $id_mahasiswa)
     {
-        $mahasiswa = Mahasiswa::find($id_mahasiwa);
+        $mhs = Mahasiswa::find($id_mahasiwa);
         return view('update', [
-            'mahasiswa' => $mahasiswa
+            'mahasiswa' => $mhs
         ]);
     }
 
@@ -73,7 +78,27 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'nim' => 'required',
+            'jurusan' => 'required',    
+            'alamat' => 'required',
+        ]);
+
+        $mhs = Mahasiswa::find($id_mahasiswa);
+        $ktm = Ktm::find($request->id_ktm);
+        
+        $mhs->nama = $request->nama;
+        $mhs->nim = $request->nim;
+        $mhs->jurusan = $request->jurusan;
+        $mhs->alamat = $request->alamat;
+        
+        $ktm->nomor_identitas = $request->no_identitas;
+        
+        $mhs->save();
+        $ktm->save();
+
+        return redirect()->route('index');
     }
 
     /**
@@ -81,5 +106,22 @@ class MahasiswaController extends Controller
      */
     public function destroy(string $id)
     {
+        $ktm = Ktm::find($id_ktm);
+        $mhs = Mahasiswa::find($ktm->id_mahasiswa);
+
+        return view('delete', [
+            'ktm' => $ktm,
+            'mahasiswa' => $mhs
+        ]);
+    }
+    public function delete_data(string $id_ktm)
+    {
+        $ktm = Ktm::find($id_ktm);
+        $mhs = Mahasiswa::find($ktm->id_mahasiswa);
+
+        $ktm->delete();
+        $mhs->delete();
+
+        return redirect()->route('index');
 }
 }

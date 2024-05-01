@@ -10,10 +10,12 @@ class Dosen extends Model
     use HasFactory;
 
     protected $table = 'dosen';
+    protected $primaryKey = 'nip';
+    public $timestamps = false;
 
-    protected $primaryKey = 'ID_dosen';
-    public function ktd(){
+    protected $fillable = ['nama', 'nip', 'email'];
+    public function ktd()
+    {
         return $this->hasOne(Ktd::class, 'ID_dosen');
-
-}
+    }
 }

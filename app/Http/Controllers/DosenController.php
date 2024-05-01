@@ -13,6 +13,7 @@ class DosenController extends Controller
     public function index()
     {
         $dosen = Dosen::all();
+
         return view('dosen', [
             'dosen' => $dosen
         ]);
@@ -22,7 +23,11 @@ class DosenController extends Controller
      */
     public function create()
     {
-        //
+        $dosen = Dosen::all();
+
+        return view('create', [
+            'create' => $dosen
+        ]);
     }
 
     /**

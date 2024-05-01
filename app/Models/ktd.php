@@ -9,10 +9,10 @@ class ktd extends Model
 {
     use HasFactory;
     protected $table = 'ktd';
-
     protected $primaryKey = 'id_ktd';
-
-    public function dosen(){
+    protected $fillable = ['id_dosen', 'nidn'];
+    public function dosen()
+    {
         return $this->belongsTo(Dosen::class);
-}
+    }
 }
